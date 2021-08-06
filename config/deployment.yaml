@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simpleapp-go
+  labels:
+    app: simpleapp-go
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simpleapp-go
+  template:
+    metadata:
+      labels:
+        app: simpleapp-go
+    spec:
+      containers:
+        - name: simpleapp-go
+          image: 10.24.2.238/lab/simpleapp-go:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+        imagePullSecrets:
+        - name: harbor

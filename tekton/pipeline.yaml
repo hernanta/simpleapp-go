@@ -1,0 +1,32 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: simpleapp-go
+spec:
+  resources:
+    - name: source
+      type: git
+    - name: image
+      type: image
+  tasks:
+    - name: build
+      taskRef:
+        name: buildah
+      resources:
+        inputs:
+          - name: source
+            resource: source
+        outputs:
+          - name: image
+            resource: image
+      params:
+        - name: TLSVERIFY
+          value: 'false'
+    - name: deploy
+      runAfter: [build]
+      taskRef:
+        name: deploy-kubectl
+      resources:
+        inputs:
+          - name: source
+            resource: source

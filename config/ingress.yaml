@@ -1,0 +1,15 @@
+piVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: simpleapp-go
+  namespace: dev
+spec:
+  ingressClassName: nginx # use only with k8s version >= 1.18.0
+  rules:
+  - host: simpleapp-go.lab.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: simpleapp-go
+          servicePort: 80
